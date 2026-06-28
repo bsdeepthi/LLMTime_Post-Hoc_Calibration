@@ -1,0 +1,35 @@
+# Environment and secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+
+
+# Cache CSVs are committed so reviewers can reproduce results without an API key
+# outputs/rolling/cache_*.csv  ← intentionally tracked
+!outputs/figures/
+
+# Data (too large for git; download separately per README)
+Data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code internal
+.claude/
