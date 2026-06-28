@@ -26,8 +26,8 @@ Four conformal prediction variants are compared: **Symmetric CP**, **Asymmetric 
 All GPT-4-Turbo API responses are cached as CSV files and committed to this repository. You can reproduce every table and figure in the thesis **without an OpenAI API key**:
 
 ```bash
-git clone https://github.com/bsdeepthi/llm-timeseries-calibration.git
-cd llm-timeseries-calibration
+git clone https://github.com/bsdeepthi/LLMTime_Post-Hoc_Calibration.git
+cd LLMTime_Post-Hoc_Calibration
 pip install -r requirements.txt
 pip install python-docx        # for thesis generation only
 
@@ -36,12 +36,6 @@ python run_rolling_eval.py
 
 # Reproduce Exchange Rate results (uses cached samples — no API call)
 python run_rolling_eval.py --dataset exchange
-
-# Regenerate all thesis figures
-python generate_plots.py
-
-# Regenerate the thesis Word document
-python generate_thesis.py
 ```
 
 An API key is only needed if you want to **re-query the model** (e.g., delete a cache file and re-run that origin).
@@ -120,13 +114,12 @@ An API key is only needed if you want to **re-query the model** (e.g., delete a 
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/bsdeepthi/llm-timeseries-calibration.git
-cd llm-timeseries-calibration
+git clone https://github.com/bsdeepthi/LLMTime_Post-Hoc_Calibration.git
+cd LLMTime_Post-Hoc_Calibration
 python -m venv venv
 venv\Scripts\activate          # Windows
 # source venv/bin/activate     # macOS / Linux
 pip install -r requirements.txt
-pip install python-docx        # only needed for generate_thesis.py
 ```
 
 ### 2. API key (only needed to re-query the model)
@@ -146,6 +139,13 @@ MISTRAL_API_KEY=...          # for Mistral-Small (optional)
 ### 3. Datasets
 
 The ETTh1 and Exchange Rate datasets are downloaded automatically on first run and cached to `Data/`. No manual download is needed.
+
+| Dataset | Description | Direct URL |
+|---------|-------------|------------|
+| **ETTh1** | Electricity Transformer Temperature, hourly, Jul 2016 – Jun 2018 (Zhou et al., 2021) | https://raw.githubusercontent.com/zhouhaoyi/ETDataset/main/ETT-small/ETTh1.csv |
+| **Exchange Rate** | 8 currency rates vs USD, daily, 1990–2010 (Lai et al., 2018) | https://raw.githubusercontent.com/laiguokun/multivariate-time-series-data/master/exchange_rate/exchange_rate.txt.gz |
+
+To download manually, pass the URLs above to `datasets/loaders.py:_download()`, or simply run any evaluation script and the files will be fetched and cached to `Data/` automatically.
 
 ---
 
@@ -200,28 +200,6 @@ cache_{dataset}_{model_tag}_o{origin_idx}_{split}_h{horizon}.csv
 # model_tag is empty for gpt-4-turbo (default), _mistral_sm for Mistral
 # cal split uses hshared (same calibration samples used across all horizons)
 ```
-
----
-
-## Generating Figures and the Thesis Document
-
-```bash
-# Step 1: generate all thesis figures (requires results CSVs and cache files)
-python generate_plots.py
-
-# Step 2: generate the thesis Word document
-python generate_thesis.py
-# Output: outputs/thesis_BSDeepthi_LLMTime_Calibration_v2.docx
-```
-
-> Run `generate_plots.py` **before** `generate_thesis.py` so figures are embedded correctly.
-
-The thesis document contains:
-- Chapters 1–6, References (40 Harvard-style), Appendices A–D
-- 22 tables, 11 figures embedded from real data
-- ~19,000 words
-
----
 
 ## Extending the Framework
 
@@ -284,8 +262,3 @@ A Post-Hoc Calibration Framework. MSc Dissertation, Liverpool John Moores Univer
 ```
 
 ---
-
-## License
-
-This repository is submitted as part of an MSc dissertation at Liverpool John Moores University.  
-All rights reserved. Please contact the author before reusing any code or results.
